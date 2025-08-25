@@ -1,0 +1,22 @@
+INSERT INTO Employee VALUES (101, 'Alice', 1), 
+                            (102, 'Bob', 2), 
+                            (103, 'Charlie', 3);
+
+-- Insert into Users
+INSERT INTO Users VALUES (1, 'alice@mail.com'), 
+                         (2, 'bob@mail.com');
+
+INSERT INTO Product VALUES (1, 99.99), 
+                           (2, 149.50);
+
+INSERT INTO Orders (OrderID) VALUES (1), (2);
+
+INSERT INTO Course VALUES (1, 'Database Systems'), 
+                          (2, 'Operating Systems');
+
+SELECT * FROM Department;
+SELECT * FROM Employee;
+SELECT * FROM Users;
+SELECT * FROM Product;
+SELECT * FROM Orders;
+SELECT * FROM Course;
