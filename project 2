@@ -1,0 +1,68 @@
+CREATE DATABASE IF NOT EXISTS CompanyDB;
+
+USE CompanyDB;
+
+DROP TABLE IF EXISTS Employee;
+DROP TABLE IF EXISTS Department;
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Product;
+DROP TABLE IF EXISTS Orders;
+DROP TABLE IF EXISTS Course;
+
+CREATE TABLE Department (
+    DeptID INT PRIMARY KEY,
+    DeptName VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Employee (
+    EmpID INT PRIMARY KEY,
+    EmpName VARCHAR(50) NOT NULL,
+    DeptID INT,
+    FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
+);
+
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY,
+    Email VARCHAR(100) UNIQUE
+);
+
+CREATE TABLE Product (
+    ProductID INT PRIMARY KEY,
+    Price DECIMAL(10,2) CHECK (Price > 0)
+);
+
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    Status VARCHAR(20) DEFAULT 'Pending'
+);
+
+-- 9. Create Course table (PRIMARY KEY + NOT NULL)
+CREATE TABLE Course (
+    CourseID INT PRIMARY KEY,
+    CourseName VARCHAR(50) NOT NULL
+);
+
+
+INSERT INTO Department VALUES (1, 'HR'), (2, 'IT'), (3, 'Finance');
+
+INSERT INTO Employee VALUES (101, 'Alice', 1), 
+                            (102, 'Bob', 2), 
+                            (103, 'Charlie', 3);
+
+INSERT INTO Users VALUES (1, 'alice@mail.com'), 
+                         (2, 'bob@mail.com');
+
+INSERT INTO Product VALUES (1, 99.99), 
+                           (2, 149.50);
+
+INSERT INTO Orders (OrderID) VALUES (1), (2);
+
+INSERT INTO Course VALUES (1, 'Database Systems'), 
+                          (2, 'Operating Systems');
+
+SELECT * FROM Department;
+SELECT * FROM Employee;
+SELECT * FROM Users;
+SELECT * FROM Product;
+SELECT * FROM Orders;
+SELECT * FROM Course;
