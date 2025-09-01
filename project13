@@ -1,0 +1,15 @@
+DROP DATABASE IF EXISTS AutoIncrementDemo;
+CREATE DATABASE AutoIncrementDemo;
+USE AutoIncrementDemo;
+CREATE TABLE Employee (
+    EmpID INT AUTO_INCREMENT,
+    EmpName VARCHAR(50) NOT NULL,
+    DeptID INT,
+    PRIMARY KEY (EmpID)
+);
+INSERT INTO Employee (EmpName, DeptID) VALUES ('Alice', 1);
+INSERT INTO Employee (EmpName, DeptID) VALUES ('Bob', 2);
+INSERT INTO Employee (EmpName, DeptID) VALUES ('Charlie', 1);
+INSERT INTO Employee (EmpName, DeptID) VALUES ('David', 3);
+SELECT * FROM Employee;
+SHOW TABLE STATUS LIKE 'Employee';
