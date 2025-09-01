@@ -1,0 +1,45 @@
+DROP DATABASE IF EXISTS PrivilegeDemo;
+CREATE DATABASE PrivilegeDemo;
+USE PrivilegeDemo;
+
+-- Create a sample table
+CREATE TABLE Department (
+    DeptID INT PRIMARY KEY,
+    DeptName VARCHAR(50) NOT NULL
+);
+
+INSERT INTO Department VALUES (1, 'Computer Science');
+INSERT INTO Department VALUES (2, 'Mechanical');
+
+-- ============================================================
+-- Step 2: Create a User (Run as root/admin)
+-- ============================================================
+CREATE USER IF NOT EXISTS 'user1'@'localhost' IDENTIFIED BY 'password123';
+
+-- Grant SELECT, INSERT to user1
+GRANT SELECT, INSERT ON PrivilegeDemo.Department TO 'user1'@'localhost';
+FLUSH PRIVILEGES;
+
+-- ============================================================
+-- Step 3: Now open a new connection in Workbench:
+--   Username: user1
+--   Password: password123
+--   Default schema: PrivilegeDemo
+-- ============================================================
+
+-- Run these as user1:
+SELECT * FROM Department;   -- ✅ should work
+INSERT INTO Department VALUES (3, 'Electrical'); -- ✅ should work
+UPDATE Department SET DeptName = 'Mech Engg' WHERE DeptID = 2; -- ❌ will fail
+
+-- ============================================================
+-- Step 4: Revoke privilege (Run as root/admin)
+-- ============================================================
+REVOKE INSERT ON PrivilegeDemo.Department FROM 'user1'@'localhost';
+FLUSH PRIVILEGES;
+
+-- ============================================================
+-- Step 5: Test again as user1
+-- ============================================================
+SELECT * FROM Department;   
+INSERT INTO Department VALUES (4, 'Civil'); -- ❌ will now fail
