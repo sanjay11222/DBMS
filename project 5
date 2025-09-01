@@ -1,0 +1,26 @@
+DROP DATABASE IF EXISTS TCL_Demo;
+CREATE DATABASE TCL_Demo;
+USE TCL_Demo;
+CREATE TABLE Department (
+    DeptID INT PRIMARY KEY,
+    DeptName VARCHAR(50) NOT NULL
+);
+
+START TRANSACTION;
+INSERT INTO Department (DeptID, DeptName) VALUES (1, 'Computer Science');
+
+COMMIT;
+SELECT * FROM Department;
+START TRANSACTION;
+INSERT INTO Department (DeptID, DeptName) VALUES (2, 'Mechanical');
+SAVEPOINT sp1;
+INSERT INTO Department (DeptID, DeptName) VALUES (3, 'Electrical');
+INSERT INTO Department (DeptID, DeptName) VALUES (4, 'Civil');
+ROLLBACK TO sp1;
+COMMIT;
+SELECT * FROM Department;
+START TRANSACTION;
+INSERT INTO Department (DeptID, DeptName) VALUES (5, 'Temporary');
+SELECT * FROM Department;
+ROLLBACK;
+SELECT * FROM Department;
