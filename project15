@@ -1,0 +1,41 @@
+DROP DATABASE IF EXISTS CaseLoopDemo;
+CREATE DATABASE CaseLoopDemo;
+USE CaseLoopDemo;
+CREATE TABLE Employee (
+    EmpID INT AUTO_INCREMENT,
+    EmpName VARCHAR(50),
+    DeptID INT,
+    Salary DECIMAL(10,2),
+    PRIMARY KEY (EmpID)
+);
+INSERT INTO Employee (EmpName, DeptID, Salary) VALUES
+('Alice', 1, 6000),
+('Bob', 2, 4500),
+('Charlie', 1, 2500);
+SELECT EmpName,
+       Salary,
+       CASE
+           WHEN Salary > 5000 THEN 'High'
+           WHEN Salary BETWEEN 3000 AND 5000 THEN 'Medium'
+           ELSE 'Low'
+       END AS Salary_Level
+FROM Employee;
+DELIMITER $$
+CREATE PROCEDURE InsertWithLoop()
+BEGIN
+    DECLARE counter INT DEFAULT 1;
+    loop_label: LOOP
+        INSERT INTO Employee (EmpName, DeptID, Salary) 
+        VALUES (CONCAT('Employee', counter), 3, 3000 + (counter * 200));
+
+        SET counter = counter + 1;
+
+        -- Exit condition
+        IF counter > 5 THEN
+            LEAVE loop_label;
+        END IF;
+    END LOOP loop_label;
+END $$
+DELIMITER ;
+CALL InsertWithLoop();
+SELECT * FROM Employee;
