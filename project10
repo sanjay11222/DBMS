@@ -1,0 +1,62 @@
+DROP DATABASE IF EXISTS SubqueryDemo;
+CREATE DATABASE SubqueryDemo;
+USE SubqueryDemo;
+CREATE TABLE Department (
+    DeptID INT PRIMARY KEY,
+    DeptName VARCHAR(50) NOT NULL
+);
+CREATE TABLE Employee (
+    EmpID INT PRIMARY KEY,
+    EmpName VARCHAR(50) NOT NULL,
+    DeptID INT,
+    Salary DECIMAL(10,2),
+    FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
+);
+INSERT INTO Department VALUES (1, 'Computer Science');
+INSERT INTO Department VALUES (2, 'Mechanical');
+INSERT INTO Department VALUES (3, 'Electronics');
+INSERT INTO Employee VALUES (101, 'Alice', 1, 50000);
+INSERT INTO Employee VALUES (102, 'Bob', 1, 55000);
+INSERT INTO Employee VALUES (103, 'Charlie', 2, 45000);
+INSERT INTO Employee VALUES (104, 'David', 2, 40000);
+INSERT INTO Employee VALUES (105, 'Eva', 3, 60000);
+INSERT INTO Employee VALUES (106, 'Frank', 3, 62000);
+SELECT EmpName 
+FROM Employee 
+WHERE DeptID IN (
+    SELECT DeptID 
+    FROM Department 
+    WHERE DeptName = 'Computer Science'
+);
+SELECT EmpName, Salary
+FROM Employee
+WHERE Salary > (
+    SELECT AVG(Salary) FROM Employee
+);
+SELECT EmpName, DeptID
+FROM Employee
+WHERE DeptID IN (
+    SELECT DeptID FROM Department
+);
+SELECT EmpName 
+FROM Employee e
+WHERE EXISTS (
+    SELECT 1 
+    FROM Department d 
+    WHERE e.DeptID = d.DeptID 
+      AND d.DeptName = 'Mechanical'
+);
+SELECT EmpName, DeptID, Salary
+FROM Employee e
+WHERE Salary > (
+    SELECT AVG(Salary) 
+    FROM Employee 
+    WHERE DeptID = e.DeptID
+);
+SELECT DeptName
+FROM Department d
+WHERE 1 < (
+    SELECT COUNT(*) 
+    FROM Employee e 
+    WHERE e.DeptID = d.DeptID
+);
