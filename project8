@@ -1,0 +1,45 @@
+DROP DATABASE IF EXISTS FilterAggregateDemo;
+CREATE DATABASE FilterAggregateDemo;
+USE FilterAggregateDemo;
+CREATE TABLE Product (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(50) NOT NULL,
+    Price DECIMAL(10,2) NOT NULL
+);
+
+CREATE TABLE Employee (
+    EmpID INT PRIMARY KEY,
+    EmpName VARCHAR(50) NOT NULL,
+    DeptID INT NOT NULL
+);
+INSERT INTO Product VALUES (201, 'Laptop', 80000.00);
+INSERT INTO Product VALUES (202, 'Mouse', 500.00);
+INSERT INTO Product VALUES (203, 'Keyboard', 1200.00);
+INSERT INTO Product VALUES (204, 'Monitor', 15000.00);
+INSERT INTO Product VALUES (205, 'USB Cable', 150.00);
+INSERT INTO Product VALUES (206, 'Headphones', 2000.00);
+INSERT INTO Employee VALUES (101, 'Alice', 1);
+INSERT INTO Employee VALUES (102, 'Bob', 1);
+INSERT INTO Employee VALUES (103, 'Charlie', 2);
+INSERT INTO Employee VALUES (104, 'David', 3);
+INSERT INTO Employee VALUES (105, 'Eva', 2);
+SELECT ProductName, Price 
+FROM Product 
+WHERE Price BETWEEN 500 AND 2000;
+SELECT EmpID, EmpName 
+FROM Employee 
+WHERE EmpID BETWEEN 102 AND 104;
+SELECT EmpName, DeptID 
+FROM Employee 
+WHERE DeptID IN (1, 2);
+SELECT ProductName, Price 
+FROM Product 
+WHERE ProductID IN (202, 204, 206);
+SELECT COUNT(*) AS TotalProducts FROM Product;
+SELECT AVG(Price) AS AveragePrice FROM Product;
+SELECT MAX(Price) AS MaxPrice FROM Product;
+SELECT MIN(Price) AS MinPrice FROM Product;
+SELECT SUM(Price) AS TotalValue FROM Product;
+SELECT DeptID, COUNT(*) AS TotalEmployees 
+FROM Employee 
+GROUP BY DeptID;
