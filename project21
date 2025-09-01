@@ -1,0 +1,28 @@
+-- Step 1: Create a database (only once)
+CREATE DATABASE IF NOT EXISTS S;
+
+-- Step 2: Select the database
+USE S;
+
+-- Step 3: Create the table
+CREATE TABLE IF NOT EXISTS StringDemo (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    text_value VARCHAR(50)
+);
+
+-- Step 4: Insert sample values
+INSERT INTO StringDemo (text_value) VALUES
+('   Hello MySQL   '),
+('Database'),
+('Functions');
+
+-- Step 5: Run string functions
+SELECT 
+    text_value AS OriginalText,
+    CONCAT('ABC', SPACE(5), 'XYZ') AS SpaceExample,
+    SUBSTR(text_value, 4, 3) AS SubstrExample,
+    UPPER(text_value) AS UpperExample,
+    LOWER(text_value) AS LowerExample,
+    TRIM(text_value) AS TrimExample,
+    LENGTH(text_value) AS LengthExample
+FROM StringDemo;
