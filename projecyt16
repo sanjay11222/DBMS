@@ -1,0 +1,22 @@
+DROP DATABASE IF EXISTS ProcedureDemo;
+CREATE DATABASE ProcedureDemo;
+USE ProcedureDemo;
+CREATE TABLE Employee (
+    EmpID INT AUTO_INCREMENT PRIMARY KEY,
+    EmpName VARCHAR(50),
+    DeptID INT
+);
+INSERT INTO Employee (EmpName, DeptID) VALUES
+('Alice', 1),
+('Bob', 2);
+SELECT * FROM Employee;
+DELIMITER $$
+CREATE PROCEDURE InsertEmployee(IN emp_name VARCHAR(50), IN dept_id INT)
+BEGIN
+    INSERT INTO Employee (EmpName, DeptID) VALUES (emp_name, dept_id);
+END $$
+DELIMITER ;
+CALL InsertEmployee('John Doe', 1);
+CALL InsertEmployee('Charlie', 2);
+CALL InsertEmployee('David', 3);
+SELECT * FROM Employee;
