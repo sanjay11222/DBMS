@@ -1,0 +1,33 @@
+DROP DATABASE IF EXISTS WhereLikeDemo;
+CREATE DATABASE WhereLikeDemo;
+USE WhereLikeDemo;
+CREATE TABLE Department (
+    DeptID INT PRIMARY KEY,
+    DeptName VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Employee (
+    EmpID INT PRIMARY KEY,
+    EmpName VARCHAR(50) NOT NULL,
+    DeptID INT,
+    FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
+);
+INSERT INTO Department VALUES (1, 'Computer Science');
+INSERT INTO Department VALUES (2, 'Mechanical');
+INSERT INTO Department VALUES (3, 'Electronics');
+INSERT INTO Employee VALUES (101, 'Alice', 1);
+INSERT INTO Employee VALUES (102, 'Bob', 1);
+INSERT INTO Employee VALUES (103, 'Charlie', 2);
+INSERT INTO Employee VALUES (104, 'David', 3);
+INSERT INTO Employee VALUES (105, 'Alicia', 1);
+INSERT INTO Employee VALUES (106, 'Eva', 2);
+INSERT INTO Employee VALUES (107, 'Aaron', 3);
+SELECT EmpName FROM Employee WHERE DeptID = 1;
+SELECT EmpID, EmpName FROM Employee WHERE DeptID = 2;
+SELECT * FROM Employee WHERE EmpID > 103;
+SELECT EmpName FROM Employee WHERE EmpName LIKE 'A%';
+SELECT EmpName FROM Employee WHERE EmpName LIKE '%a';
+
+SELECT EmpName FROM Employee WHERE EmpName LIKE '%li%';
+
+SELECT EmpName FROM Employee WHERE EmpName LIKE '_a%';
