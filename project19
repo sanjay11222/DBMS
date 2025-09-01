@@ -1,0 +1,30 @@
+DROP DATABASE IF EXISTS TriggerDemo;
+CREATE DATABASE TriggerDemo;
+USE TriggerDemo;
+CREATE TABLE Employee (
+    EmpID INT AUTO_INCREMENT PRIMARY KEY,
+    EmpName VARCHAR(50),
+    DeptID INT,
+    Salary INT
+);
+CREATE TABLE AuditLog (
+    LogID INT AUTO_INCREMENT PRIMARY KEY,
+    Action VARCHAR(20),
+    EmpID INT,
+    LogDate DATETIME
+);
+DELIMITER $$
+CREATE TRIGGER EmployeeInsert
+AFTER INSERT ON Employee
+FOR EACH ROW
+BEGIN
+    INSERT INTO AuditLog (Action, EmpID, LogDate)
+    VALUES ('INSERT', NEW.EmpID, NOW());
+END $$
+DELIMITER ;
+INSERT INTO Employee (EmpName, DeptID, Salary)
+VALUES ('Alice', 1, 6000);
+INSERT INTO Employee (EmpName, DeptID, Salary)
+VALUES ('Bob', 2, 4500);
+SELECT * FROM Employee;
+SELECT * FROM AuditLog;
