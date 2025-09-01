@@ -1,0 +1,79 @@
+-- Step 1: Create Database
+CREATE DATABASE CollegeAdmission;
+USE CollegeAdmission;
+
+-- Step 2: Create Students table
+CREATE TABLE Students (
+    student_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    dob DATE,
+    gender VARCHAR(10),
+    email VARCHAR(100),
+    phone VARCHAR(15),
+    address VARCHAR(200)
+);
+
+-- Step 3: Create Courses table
+CREATE TABLE Courses (
+    course_id INT AUTO_INCREMENT PRIMARY KEY,
+    course_name VARCHAR(100),
+    department VARCHAR(100),
+    duration INT   -- in years
+);
+
+-- Step 4: Create Admissions table
+CREATE TABLE Admissions (
+    admission_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    course_id INT,
+    admission_date DATE,
+    status VARCHAR(20) DEFAULT 'Applied',
+    FOREIGN KEY (student_id) REFERENCES Students(student_id),
+    FOREIGN KEY (course_id) REFERENCES Courses(course_id)
+);
+
+-- Step 5: Create Payments table
+CREATE TABLE Payments (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    admission_id INT,
+    amount DECIMAL(8,2),
+    payment_date DATE,
+    payment_status VARCHAR(20) DEFAULT 'Pending',
+    FOREIGN KEY (admission_id) REFERENCES Admissions(admission_id)
+);
+-- Insert students
+INSERT INTO Students (name, dob, gender, email, phone, address)
+VALUES ('Ananya Sharma', '2004-05-10', 'Female', 'ananya@gmail.com', '9876543210', 'Delhi');
+
+INSERT INTO Students (name, dob, gender, email, phone, address)
+VALUES ('Rohit Kumar', '2003-08-22', 'Male', 'rohit@gmail.com', '9123456789', 'Mumbai');
+
+-- Insert courses
+INSERT INTO Courses (course_name, department, duration)
+VALUES ('B.Sc Computer Science', 'Science', 3),
+       ('B.A English Literature', 'Arts', 3),
+       ('B.Com Accounting', 'Commerce', 3);
+
+-- Admission applications
+INSERT INTO Admissions (student_id, course_id, admission_date, status)
+VALUES (1, 1, '2025-06-01', 'Applied'),
+       (2, 3, '2025-06-02', 'Applied');
+
+-- Payments
+INSERT INTO Payments (admission_id, amount, payment_date, payment_status)
+VALUES (1, 500.00, '2025-06-03', 'Success'),
+       (2, 500.00, '2025-06-03', 'Pending');
+SELECT a.admission_id, s.name, c.course_name, a.admission_date, a.status
+FROM Admissions a
+JOIN Students s ON a.student_id = s.student_id
+JOIN Courses c ON a.course_id = c.course_id;
+SELECT s.name, c.course_name, p.amount, p.payment_status
+FROM Payments p
+JOIN Admissions a ON p.admission_id = a.admission_id
+JOIN Students s ON a.student_id = s.student_id
+JOIN Courses c ON a.course_id = c.course_id
+WHERE p.payment_status = 'Success';
+SELECT c.course_name, COUNT(a.admission_id) AS total_applications
+FROM Courses c
+LEFT JOIN Admissions a ON c.course_id = a.course_id
+GROUP BY c.course_name;
