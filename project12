@@ -1,0 +1,31 @@
+DROP DATABASE IF EXISTS ViewIndexDemo;
+CREATE DATABASE ViewIndexDemo;
+USE ViewIndexDemo;
+CREATE TABLE Department (
+    DeptID INT PRIMARY KEY,
+    DeptName VARCHAR(50) NOT NULL
+);
+CREATE TABLE Employee (
+    EmpID INT PRIMARY KEY,
+    EmpName VARCHAR(50) NOT NULL,
+    DeptID INT,
+    Salary DECIMAL(10,2),
+    FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
+);
+INSERT INTO Department VALUES (1, 'Computer Science');
+INSERT INTO Department VALUES (2, 'Mechanical');
+INSERT INTO Department VALUES (3, 'Civil');
+INSERT INTO Employee VALUES (101, 'Alice', 1, 50000);
+INSERT INTO Employee VALUES (102, 'Bob', 2, 60000);
+INSERT INTO Employee VALUES (103, 'Charlie', 1, 55000);
+INSERT INTO Employee VALUES (104, 'David', 3, 45000);
+INSERT INTO Employee VALUES (105, 'Eva', 2, 70000);
+CREATE VIEW EmpDept AS
+SELECT EmpName, DeptName, Salary
+FROM Employee
+INNER JOIN Department ON Employee.DeptID = Department.DeptID;
+SELECT * FROM EmpDept;
+CREATE INDEX idx_deptid ON Employee(DeptID);
+SELECT EmpName, Salary
+FROM Employee
+WHERE DeptID = 1;
