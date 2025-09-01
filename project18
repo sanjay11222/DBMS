@@ -1,0 +1,34 @@
+DROP DATABASE IF EXISTS CursorDemo;
+CREATE DATABASE CursorDemo;
+USE CursorDemo;
+CREATE TABLE Employee (
+    EmpID INT AUTO_INCREMENT PRIMARY KEY,
+    EmpName VARCHAR(50),
+    DeptID INT,
+    Salary INT
+);
+INSERT INTO Employee (EmpName, DeptID, Salary) VALUES
+('Alice', 1, 6000),
+('Bob', 2, 4500),
+('Charlie', 1, 3000),
+('David', 3, 7000);
+SELECT * FROM Employee;
+DELIMITER $$
+CREATE PROCEDURE ListEmployees()
+BEGIN
+    DECLARE emp_name VARCHAR(50);
+    DECLARE finished INT DEFAULT 0;
+    DECLARE employee_cursor CURSOR FOR SELECT EmpName FROM Employee;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET finished = 1;
+    OPEN employee_cursor;
+    emp_loop: LOOP
+        FETCH employee_cursor INTO emp_name;
+        IF finished = 1 THEN
+            LEAVE emp_loop;
+        END IF;
+        SELECT emp_name AS EmployeeName;
+    END LOOP;
+    CLOSE employee_cursor;
+END $$
+DELIMITER ;
+CALL ListEmployees();
