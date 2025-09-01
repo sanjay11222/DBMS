@@ -1,0 +1,43 @@
+DROP DATABASE IF EXISTS JoinDemo;
+CREATE DATABASE JoinDemo;
+USE JoinDemo;
+CREATE TABLE Department (
+    DeptID INT PRIMARY KEY,
+    DeptName VARCHAR(50) NOT NULL
+);
+CREATE TABLE Employee (
+    EmpID INT PRIMARY KEY,
+    EmpName VARCHAR(50) NOT NULL,
+    DeptID INT,
+    Salary DECIMAL(10,2),
+    FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
+);
+INSERT INTO Department VALUES (1, 'Computer Science');
+INSERT INTO Department VALUES (2, 'Mechanical');
+INSERT INTO Department VALUES (3, 'Electronics');
+INSERT INTO Department VALUES (4, 'Civil');   -- Dept with no employees
+INSERT INTO Employee VALUES (101, 'Alice', 1, 50000);
+INSERT INTO Employee VALUES (102, 'Bob', 1, 55000);
+INSERT INTO Employee VALUES (103, 'Charlie', 2, 45000);
+INSERT INTO Employee VALUES (104, 'David', 2, 40000);
+INSERT INTO Employee VALUES (105, 'Eva', 3, 60000);
+INSERT INTO Employee VALUES (106, 'Frank', NULL, 48000);
+SELECT Employee.EmpName, Department.DeptName
+FROM Employee, Department
+WHERE Employee.DeptID = Department.DeptID;
+SELECT Employee.EmpName, Department.DeptName
+FROM Employee
+INNER JOIN Department ON Employee.DeptID = Department.DeptID;
+SELECT Employee.EmpName, Department.DeptName
+FROM Employee
+LEFT OUTER JOIN Department ON Employee.DeptID = Department.DeptID;
+SELECT Employee.EmpName, Department.DeptName
+FROM Employee
+RIGHT OUTER JOIN Department ON Employee.DeptID = Department.DeptID;
+SELECT Employee.EmpName, Department.DeptName
+FROM Employee
+LEFT JOIN Department ON Employee.DeptID = Department.DeptID
+UNION
+SELECT Employee.EmpName, Department.DeptName
+FROM Employee
+RIGHT JOIN Department ON Employee.DeptID = Department.DeptID;
