@@ -1,0 +1,41 @@
+DROP DATABASE IF EXISTS GroupDemo;
+CREATE DATABASE GroupDemo;
+USE GroupDemo;
+CREATE TABLE Employee (
+    EmpID INT PRIMARY KEY,
+    EmpName VARCHAR(50) NOT NULL,
+    DeptID INT NOT NULL,
+    Salary DECIMAL(10,2) NOT NULL
+);
+INSERT INTO Employee VALUES (101, 'Alice', 1, 50000);
+INSERT INTO Employee VALUES (102, 'Bob', 1, 55000);
+INSERT INTO Employee VALUES (103, 'Charlie', 2, 45000);
+INSERT INTO Employee VALUES (104, 'David', 2, 40000);
+INSERT INTO Employee VALUES (105, 'Eva', 2, 48000);
+INSERT INTO Employee VALUES (106, 'Frank', 3, 60000);
+INSERT INTO Employee VALUES (107, 'Grace', 3, 62000);
+INSERT INTO Employee VALUES (108, 'Helen', 3, 58000);
+SELECT DeptID, COUNT(*) AS TotalEmployees
+FROM Employee
+GROUP BY DeptID;
+SELECT DeptID, AVG(Salary) AS AvgSalary
+FROM Employee
+GROUP BY DeptID;
+SELECT DeptID, COUNT(*) AS TotalEmployees
+FROM Employee
+GROUP BY DeptID
+HAVING COUNT(*) > 2;
+SELECT DeptID, AVG(Salary) AS AvgSalary
+FROM Employee
+GROUP BY DeptID
+HAVING AVG(Salary) > 50000;
+SELECT EmpName, Salary
+FROM Employee
+ORDER BY Salary;
+SELECT EmpName, Salary
+FROM Employee
+ORDER BY Salary DESC;
+SELECT DeptID, AVG(Salary) AS AvgSalary
+FROM Employee
+GROUP BY DeptID
+ORDER BY AvgSalary DESC;
