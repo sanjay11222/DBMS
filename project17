@@ -1,0 +1,30 @@
+DROP DATABASE IF EXISTS FunctionDemo;
+CREATE DATABASE FunctionDemo;
+USE FunctionDemo;
+CREATE TABLE Employee (
+    EmpID INT AUTO_INCREMENT PRIMARY KEY,
+    EmpName VARCHAR(50),
+    DeptID INT,
+    Salary INT
+);
+INSERT INTO Employee (EmpName, DeptID, Salary) VALUES
+('Alice', 1, 6000),
+('Bob', 2, 4500),
+('Charlie', 1, 3000),
+('David', 3, 7000);
+SELECT * FROM Employee;
+DELIMITER $$
+CREATE FUNCTION CalculateSalary(emp_id INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    DECLARE salary_value INT;
+    SELECT Salary INTO salary_value
+    FROM Employee
+    WHERE EmpID = emp_id;
+    RETURN salary_value;
+END $$
+DELIMITER ;
+SELECT CalculateSalary(1) AS Salary_Of_Emp1;
+SELECT CalculateSalary(3) AS Salary_Of_Emp3;
+SELECT * FROM Employee;
