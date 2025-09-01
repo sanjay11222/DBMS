@@ -1,0 +1,35 @@
+DROP DATABASE IF EXISTS LoopDemo;
+CREATE DATABASE LoopDemo;
+USE LoopDemo;
+CREATE TABLE Employee (
+    EmpID INT AUTO_INCREMENT,
+    EmpName VARCHAR(50),
+    DeptID INT,
+    PRIMARY KEY (EmpID)
+);
+DELIMITER $$
+CREATE PROCEDURE InsertWithRepeat()
+BEGIN
+    DECLARE counter INT DEFAULT 1;
+    REPEAT
+        INSERT INTO Employee (EmpName, DeptID) 
+        VALUES (CONCAT('Employee', counter), 1);
+        SET counter = counter + 1;
+    UNTIL counter > 5
+    END REPEAT;
+END $$
+DELIMITER ;
+CALL InsertWithRepeat();
+DELIMITER $$
+CREATE PROCEDURE InsertWithWhile()
+BEGIN
+    DECLARE counter INT DEFAULT 1;
+    WHILE counter <= 5 DO
+        INSERT INTO Employee (EmpName, DeptID) 
+        VALUES (CONCAT('Employee', counter), 2);
+        SET counter = counter + 1;
+    END WHILE;
+END $$
+DELIMITER ;
+CALL InsertWithWhile();
+SELECT * FROM Employee;
