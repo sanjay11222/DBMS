@@ -1,0 +1,7 @@
+SELECT REPLACE('Hello World', 'World', 'MySQL') AS ReplaceExample;
+SELECT REPEAT('Hello ', 3) AS RepeatExample;
+SELECT REVERSE('MySQL') AS ReverseExample;
+SELECT RIGHT('Hello World', 5) AS RightExample;
+SELECT LEFT('Hello World', 5) AS LeftExample;
+SELECT RPAD('Hello', 10, '!') AS RpadExample;
+SELECT LPAD('Hello', 10, '!') AS LpadExample;
